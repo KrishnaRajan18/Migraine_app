@@ -4,5 +4,5 @@ module.exports = {
   CLIENT_ORIGIN: 3000,
   DATABASE_URL: "postgresql://localhost/migraine_app",
   TEST_DATABASE_URL: "postgresql://localhost/migraine_app",
-  JWT_SECRET: "i-am-secret"
+  JWT_SECRET: "change-this-secret"
 };

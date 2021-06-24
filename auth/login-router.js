@@ -11,7 +11,7 @@ loginRouter.post("/login", jsonBodyParser, (req, res, next) => {
   for (const [key, value] of Object.entries(loginUser))
     if (value == null)
       return res.status(400).json({
-        error: `Missing '${key}' in request body`
+        error: `Missing '${key}' in form`
       });
   loginService
     .getUserWithUserEmail(req.app.get("db"), loginUser.email)
@@ -31,7 +31,8 @@ loginRouter.post("/login", jsonBodyParser, (req, res, next) => {
           const payload = { user_id: User.id };
           res.send({
             authToken: loginService.createJwt(User.email, payload),
-            userId: User.id
+            userId: User.id,
+            userName: User.first_name
           });
         });
     })

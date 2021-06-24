@@ -52,6 +52,60 @@ const UsersService = {
       .select("*")
       .where("id", id)
       .first();
+  },
+  serializeRecord(record) {
+    return {
+      id: record.id,
+      intensity: record.intensity,
+      location: record.location,
+      onset: record.onset,
+      symptom: record.symptom,
+      time: record.time,
+      trigger: record.trigger,
+      symptom: record.symptom,
+      treatment: record.treatment,
+      comment: xss(record.comment)
+    };
+  },
+  getRecordsById(knex, id) {
+    return knex
+      .from("migraine_records")
+      .select("*")
+      .where("user_id", id);
+  },
+  getHighestStat(knex, id) {
+    return knex
+      .from("migraine_records")
+      .where("user_id", id)
+      .select("location")
+      .count("*")
+      .groupBy("location")
+      .orderBy("count", "desc")
+      .select("time")
+      .count("*")
+      .groupBy("time")
+      .orderBy("count", "desc")
+      .select("onset")
+      .count("*")
+      .groupBy("onset")
+      .orderBy("count", "desc")
+      .select("intensity")
+      .avg("intensity")
+      .groupBy("intensity")
+      .orderBy("count", "desc")
+      .select("trigger")
+      .count("*")
+      .groupBy("trigger")
+      .orderBy("count", "desc")
+      .select("symptom")
+      .count("*")
+      .groupBy("symptom")
+      .orderBy("count", "desc")
+      .select("treatment")
+      .count("*")
+      .groupBy("treatment")
+      .orderBy("count", "desc")
+      .first();
   }
 };
 
